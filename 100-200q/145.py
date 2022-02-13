@@ -5,9 +5,9 @@
 
 	Input: [1,null,2,3]
 	   1
-	    \
-	     2
-	    /
+		\
+		 2
+		/
 	   3
 
 	Output: [3,2,1]
@@ -15,29 +15,29 @@
 '''
 
 # Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
-class Solution(object):
-    def postorderTraversal(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
-        
-        result = []
+class Solution1(object):
+	def postorderTraversal(self, root):
+		"""
+		:type root: TreeNode
+		:rtype: List[int]
+		"""
+		
+		result = []
 
-        def recursive(root, result):
-        	if not root:
-        		return
-        	recursive(root.left, result)
-        	recursive(root.right, result)
-        	result.append(root.val)
-        recursive(root, result)
-        return result
+		def recursive(root, result):
+			if not root:
+				return
+			recursive(root.left, result)
+			recursive(root.right, result)
+			result.append(root.val)
+		recursive(root, result)
+		return result
 
 
 # Definition for a binary tree node.
@@ -48,35 +48,52 @@ class Solution(object):
 #         self.right = None
 
 class Solution(object):
-    def postorderTraversal(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
+	def postorderTraversal(self, root):
+		"""
+		:type root: TreeNode
+		:rtype: List[int]
+		"""
 
-        if not root:
-        	return []
+		if not root:
+			return []
 
-        stack, result = [], []
+		stack, result = [], []
 
-        while True:
-        	while root:
-        		if root.right:
-        			stack.append(root.right)
-        		stack.append(root)
-        		root = root.left
+		while True:
+			while root:
+				if root.right:
+					stack.append(root.right)
+				stack.append(root)
+				root = root.left
 
-        	root = stack.pop()
+			root = stack.pop()
 
-        	if root.right and stack and stack[-1] == root.right:
-        		stack.pop()
-        		stack.append(root)
-        		root = root.right
-        	else:
-        		result.append(root.val)
-        		root = None
+			if root.right and stack and stack[-1] == root.right:
+				stack.pop()
+				stack.append(root)
+				root = root.right
+			else:
+				result.append(root.val)
+				root = None
 
-        	if  len(stack)<=0:
-        		break
+			if  len(stack)<=0:
+				break
 
-        return result
+		return result
+
+
+def get_test_case1():
+    	# test case 1
+	root = TreeNode(1)
+	node2 = TreeNode(2)
+	node3 = TreeNode(3)
+ 
+	root.right = node2
+	node2.left = node3
+ 
+	test_solution = Solution()
+	return test_solution, root
+
+sol, root = get_test_case1()
+
+print(sol.postorderTraversal(root))
